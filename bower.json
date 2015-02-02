@@ -1,0 +1,23 @@
+{
+  "name": "stock-app",
+  "version": "0.0.0",
+  "homepage": "https://github.com/edean11/stock-app",
+  "authors": [
+    "thedean11 <edean1010@gmail.com>"
+  ],
+  "main": "main.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "~3.0.1",
+    "skeleton": "~2.0.4",
+    "jquery": "~2.1.3"
+  }
+}
