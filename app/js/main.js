@@ -18,19 +18,23 @@
   	var tableRow = $('<tr></tr>');
   	var quantityValue = $('#quantity').val();
   	var tableBody = $('#tbody');
-  	var changeNum = Math.round(data.Change*100)/100
-  	var changePerc = Math.round(data.ChangePercent*100)/100
+  	var changeNum = Math.round(data.Change*100)/100;
+  	var changePerc = Math.round(data.ChangePercent*100)/100;
 
   	var name = $('<td>'+data.Name+'</td>');
   	var price = $('<td class="price">'+data.LastPrice+'</td>');
   	var quantity = $('<td class="quantity">'+quantityValue+'</td>');
   	var change = $('<td>'+changeNum+', '+'% '+changePerc+'</td>');
-  		// change.css()
-  	
+  		if( data.Change > 0) {
+        change.css("color", "green");
+      } else {
+        change.css("color", "red");
+      }
   	var remove = $('<td><button>Remove</button></td>');
-	remove.on("click", function(){
-		tableRow.empty();
-	});
+  	remove.on("click", function(){
+  		tableRow.empty();
+  	});
+
 
   	tableRow.append(name);
   	tableRow.append(price);
@@ -41,34 +45,24 @@
   	tableBody.append(tableRow);
 
   	var priceArray = [];
-  	//var price = $('.price');
+    var tableChildren = $('#tbody').children();
 
-  	//console.log(price);
-  	//priceArray.push(price[0].val());
+    _.forEach(tableChildren, function(n){
+      var element = $(n);
+      var total = parseFloat(element.children()[1].innerHTML) * parseFloat(element.children()[2].innerHTML);
+      priceArray.push(total);
+      console.log(total);
+    });
 
-  	//_.forEach(price, function(n){
-  	//	priceArray.push((parseFloat(n.innerHTML, 10)));
-  	//})
-  	//console.log($(price.val());
-  	//console.log(priceArray);
-  	var tableChildren = $('#tbody').children();
+    var totalPrice = _.reduce(priceArray, function(totalPrice, n){
+      return totalPrice + n;
+     })
 
-  	_.forEach(tableChildren, function(n){
-  		var element = $(n);
-  		var total = parseFloat(element.children()[1].innerHTML) * parseFloat(element.children()[2].innerHTML);
-  		priceArray.push(total);
-  		console.log(total);
-  	});
-
-  	var totalPrice = _.reduce(priceArray);
-  	var totalPrice = _.reduce(priceArray, function(totalPrice, n){
-  		return totalPrice + n;
-  	 })
-
-  	var total = $('#total');
-  	total.empty();
-  	total.append(Math.round(totalPrice*100)/100);
+    var total = $('#total');
+    total.empty();
+    total.append(Math.round(totalPrice*100)/100);
 
   }
+
 
 }());
