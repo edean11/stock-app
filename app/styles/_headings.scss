@@ -1,3 +1,41 @@
 h1 {
   color: $primary;
 }
+
+.input-container {
+	text-align: center;
+	margin: 20px 0;
+
+	input {
+		display: inline-block;
+		margin-right: 5px;
+	}
+
+	label {
+		display: inline-block;
+	}
+}
+
+.table-container {
+	//text-align: center;
+
+	table {
+		width: 70%;
+		margin: auto;
+	}
+
+	.total-container {
+		width: 70%;
+		margin: auto;
+		margin-top: 10px;
+
+		h5 {
+			display: inline-block;
+		}
+
+		p {
+			display: inline-block;
+			float: right;
+		}
+	}
+}
