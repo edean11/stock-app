@@ -5,16 +5,30 @@ html(lang="en-US")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     title My Title
-    link(rel="stylesheet" href="vendor/skeleton/normalize.css")
-    link(rel="stylesheet" href="vendor/skeleton/skeleton.css")
+    link(rel="stylesheet" href="vendor/skeleton/css/normalize.css")
+    link(rel="stylesheet" href="vendor/skeleton/css/skeleton.css")
     link(rel="stylesheet" href="css/main.css")
 
   body
     // [if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]
 
-    .container
-      img(src="img/NSS-logo-primary.svg", alt="NSS Logo", title="Nashville Software School")
-      h1 Hello World
+    .input-container
+      label(for="tickerSymbol") Stock Ticker
+      input(type="text").tickerSymbol#tickerSymbol
+      label(for="quantity") Quantity
+      input(type="text").quantity#quantity
+      button.buy-button.
+        Buy
+    .table-container
+      table
+        thead
+          tr
+            th Company Name
+            th Price
+            th Quantity
+            th Day Change
+            th Remove
+        tbody
 
     script(src="vendor/jquery/dist/jquery.min.js")
     script(src="vendor/lodash/lodash.min.js")
