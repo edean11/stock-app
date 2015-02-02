@@ -63,6 +63,5 @@
     total.append(Math.round(totalPrice*100)/100);
 
   }
-
-
+  
 }());
