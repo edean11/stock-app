@@ -87,8 +87,8 @@
         var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
 
         $.getJSON(url, function(res){
-          row.find('.currentPrice')[0].innerHTML = res.LastPrice;
-          row.find('.change')[0].innerHTML = res.Change+', %'+res.ChangePercent;
+          row.find('.currentPrice')[0].innerHTML = parseFloat(res.LastPrice);
+          row.find('.change')[0].innerHTML = (Math.round(res.Change*100)/100)+', %'+Math.round(res.ChangePercent*100)/100;
         });
       })
 
