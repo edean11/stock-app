@@ -8,19 +8,22 @@ html(lang="en-US")
     link(rel="stylesheet" href="vendor/skeleton/css/normalize.css")
     link(rel="stylesheet" href="vendor/skeleton/css/skeleton.css")
     link(rel="stylesheet" href="css/main.css")
+  
+
 
   body
     // [if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]
-
+    h1 My Stocks
     .input-container
-      label(for="tickerSymbol") Stock Ticker
-      input(type="text").tickerSymbol#tickerSymbol
-      label(for="quantity") Quantity
-      input(type="text").quantity#quantity
-      button.buy-button.
-        Buy
-      button.refresh.
-        Refresh
+      form
+        label(for="tickerSymbol") Stock Ticker
+        input(type="text" required = required).tickerSymbol#tickerSymbol
+        label(for="quantity" required = required) Quantity
+        input(type="text").quantity#quantity
+        button.buy-button.
+          Buy
+        button.refresh.
+          Refresh
     .table-container
       table
         thead

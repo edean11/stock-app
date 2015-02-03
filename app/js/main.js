@@ -1,22 +1,23 @@
 (function(){
   'use strict';
-
+//Selector variables 
   var buyButton = $('.buy-button');
   var refreshButton = $('.refresh');
   var $tbody = $('#tbody');
 
-  buyButton.on("click", function(){
+//Click events   
+  buyButton.on("click", function(evt){
   	  var ticker = $('#tickerSymbol').val();
   	  var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
-
+      evt.preventDefault();
 	  $.getJSON(url, function(res){
 	    createTable(res);
 	  });
 
-    //Edit for Git
   })
 
-  refreshButton.on("click", function(){
+  refreshButton.on("click", function(evt){
+    evt.preventDefault();
     refreshTable();
   })
 
@@ -25,6 +26,8 @@
     updateTotal();
   })
 
+
+//Create table function 
   function createTable(data) {
   	var info = [];
   	var tableRow = $('<tr class="tableRow"></tr>');
@@ -59,6 +62,8 @@
 
   }
 
+
+//Update My Stocks total
   function updateTotal(){
     var priceArray = [];
     var tableChildren = $('#tbody').children();
@@ -76,9 +81,12 @@
 
     var total = $('#total');
     total.empty();
-    total.append(Math.round(totalPrice*100)/100);
+    total.append("$" + Math.round(totalPrice*100)/100);
   }
 
+
+
+// Update current stock price
   function refreshTable(){
     var trow = $('.tableRow');
 
