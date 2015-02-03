@@ -5,12 +5,14 @@
   var refreshButton = $('.refresh');
   var $tbody = $('#tbody');
 
-// Document On Load  Return Existing Stocks
+//Document On Load - Return Existing Stocks
   $.get('https://stock-app.firebaseio.com/stocks.json', function(res){
-    Object.keys(res).forEach(function(uuid){
-      addRowToTable(uuid, res[uuid]);
-      updateTotal();
-    });
+    if(res !== null) {
+      Object.keys(res).forEach(function(uuid){
+        addRowToTable(uuid, res[uuid]);
+        updateTotal();
+      });
+    } else{}
   });
 
   function addRowToTable(uuid, data){
@@ -34,14 +36,16 @@
 
 //Click events   
   buyButton.on("click", function(evt){
-  	  var ticker = $('#tickerSymbol').val();
-  	  var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
       evt.preventDefault();
-	  $.getJSON(url, function(res){
-	    createTable(res);
-	  });
-
-  })
+  	  var ticker = $('#tickerSymbol').val();
+      var quantity = $('#quantity').val();
+      if(ticker) {
+    	  var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?';
+        $.getJSON(url, function(res){
+  	     createTable(res);
+        });
+      } else {alert('Enter All Required Fields')}
+	 });
 
   refreshButton.on("click", function(evt){
     evt.preventDefault();
@@ -49,7 +53,11 @@
   })
 
   $tbody.on("click", "button", function(){
-    $(this).closest('tr').remove();
+    var $tr = $(this).closest('tr');
+    var uuid = $tr.data('uuid');
+    var url = 'https://stock-app.firebaseio.com/stocks/'+uuid+'.json';
+    $.ajax({url: url, type:'DELETE'});
+    $tr.remove();
     updateTotal();
   })
 
