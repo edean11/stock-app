@@ -5,16 +5,18 @@
   var refreshButton = $('.refresh');
   var $tbody = $('#tbody');
 
-// Document On Load  Return Existing Stocks
+//Document On Load - Return Existing Stocks
   $.get('https://stock-app.firebaseio.com/stocks.json', function(res){
-    Object.keys(res).forEach(function(uuid){
-      addRowToTable(uuid, res[uuid]);
-      updateTotal();
-    });
+    if(res !== null) {
+      Object.keys(res).forEach(function(uuid){
+        addRowToTable(uuid, res[uuid]);
+        updateTotal();
+      });
+    } else{}
   });
 
   function addRowToTable(uuid, data){
-    var $tr = $('<tr></tr>');
+    var $tr = $('<tr class="tableRow"></tr>');
     var $name = $('<td class="name">'+data.companyName+'</td>');
     var $price = $('<td class="price">'+data.purchasePrice+'</td>');
     var $quantity = $('<td class="quantity">'+data.quantity+'</td>');
@@ -34,22 +36,28 @@
 
 //Click events   
   buyButton.on("click", function(evt){
-  	  var ticker = $('#tickerSymbol').val();
-  	  var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
       evt.preventDefault();
-	  $.getJSON(url, function(res){
-	    createTable(res);
-	  });
-
-  })
+  	  var ticker = $('#tickerSymbol').val();
+      var quantity = $('#quantity').val();
+      if(ticker) {
+    	  var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?';
+        $.getJSON(url, function(res){
+  	     createTable(res);
+        });
+      } else {alert('Enter All Required Fields')}
+	 });
 
   refreshButton.on("click", function(evt){
-    evt.preventDefault();
     refreshTable();
+    evt.preventDefault();
   })
 
   $tbody.on("click", "button", function(){
-    $(this).closest('tr').remove();
+    var $tr = $(this).closest('tr');
+    var uuid = $tr.data('uuid');
+    var url = 'https://stock-app.firebaseio.com/stocks/'+uuid+'.json';
+    $.ajax({url: url, type:'DELETE'});
+    $tr.remove();
     updateTotal();
   })
 
@@ -63,7 +71,7 @@
   	var changeNum = Math.round(data.Change*100)/100;
   	var changePerc = Math.round(data.ChangePercent*100)/100;
 
-    var object = {change: data.Change,  lastPrice: data.LastPrice,  quantity: quantityValue, purchasePrice: data.LastPrice, companyName: data.Name, symbol: data.Symbol}
+    var object = {change: changeNum+', %'+changePerc,  lastPrice: data.LastPrice,  quantity: quantityValue, purchasePrice: data.LastPrice, companyName: data.Name, symbol: data.Symbol}
     var url = 'https://stock-app.firebaseio.com/stocks.json'
     
     $.post(url, JSON.stringify(object), function(res){
@@ -99,13 +107,11 @@
   function updateTotal(){
     var priceArray = [];
     var tableChildren = $('#tbody').children();
-    console.log(tableChildren);
 
     _.forEach(tableChildren, function(n){
       var element = $(n);
       var total = parseFloat(element.children()[1].innerHTML) * parseFloat(element.children()[2].innerHTML);
       priceArray.push(total);
-      console.log(total);
     });
 
     var totalPrice = _.reduce(priceArray, function(totalPrice, n){
@@ -121,13 +127,13 @@
 
 // Update current stock price
   function refreshTable(){
+
     var trow = $('.tableRow');
 
     _.forEach(trow, function(n){
       var row = $(n);
       var foundName = row.find('.name')[0].innerHTML;
       var tickerFindURL = 'http://dev.markitondemand.com/Api/v2/Lookup/jsonp?input='+foundName+'&callback=?';
-      console.log(row);
 
       $.getJSON(tickerFindURL, function(res){
         var ticker = res[0].Symbol;
@@ -135,6 +141,7 @@
         var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
 
         $.getJSON(url, function(res){
+          console.log(res);
           row.find('.currentPrice')[0].innerHTML = parseFloat(res.LastPrice);
           row.find('.change')[0].innerHTML = (Math.round(res.Change*100)/100)+', %'+Math.round(res.ChangePercent*100)/100;
         });
