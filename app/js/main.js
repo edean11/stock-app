@@ -25,7 +25,7 @@
       } else {
         $change.css("color", "red");
       }
-    var $remove = $('<td><button style="background-color: lightCoral; color: black; box-shadow: 0px 1px 1px; ">Remove</button></td>');
+    var $remove = $('<td><button class="removeButton">Remove</button></td>');
 
     $tr.append($name);$tr.append($price);$tr.append($quantity);$tr.append($lastPrice);$tr.append($change);$tr.append($remove);
     $tr.attr('data-uuid', uuid);
@@ -82,7 +82,7 @@
       } else {
         change.css("color", "red");
       }
-  	var remove = $('<td><button style="background-color: lightCoral; color: black; box-shadow: 0px 1px 1px; ">Remove</button></td>');
+  	var remove = $('<td><button class="removeButton">Remove</button></td>');
 
 
   	tableRow.append(name);

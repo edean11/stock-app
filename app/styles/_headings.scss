@@ -81,11 +81,26 @@ h1 {
 }
 
 
-#removeButton {
-	background-color: lightCoral; 
+.removeButton {
+	background-color: lightcoral; 
 	color: black; 
 	box-shadow: 0px 1px 1px; 
+
+	&:hover {
+		background-color: #D87373;
+		box-shadow: 1px 2px; 
+	}
+
+	&:focus {
+        background-color: #D87373;
+		box-shadow: 1px 2px; 
+	}
+
+	&:active {
+		box-shadow: none;
+	}
 }
+
 
 
 
