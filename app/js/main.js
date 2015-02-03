@@ -22,10 +22,11 @@
     var $quantity = $('<td class="quantity">'+data.quantity+'</td>');
     var $lastPrice = $('<td class="currentPrice">'+data.lastPrice+'</td>');
     var $change = $('<td class="change">'+data.change+'</td>');
-      if( data.change > 0) {
+      if( data.change[0] !== '-') {
         $change.css("color", "limegreen");
       } else {
         $change.css("color", "red");
+        console.log(data.change);
       }
     var $remove = $('<td><button class="removeButton">Remove</button></td>');
 
