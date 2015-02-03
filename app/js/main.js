@@ -48,8 +48,9 @@
 	 });
 
   refreshButton.on("click", function(evt){
-    refreshTable();
     evt.preventDefault();
+    refreshTable();
+    databaseLastPriceUpdate();
   })
 
   $tbody.on("click", "button", function(){
@@ -141,7 +142,6 @@
         var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
 
         $.getJSON(url, function(res){
-          console.log(res);
           row.find('.currentPrice')[0].innerHTML = parseFloat(res.LastPrice);
           row.find('.change')[0].innerHTML = (Math.round(res.Change*100)/100)+', %'+Math.round(res.ChangePercent*100)/100;
         });
@@ -149,5 +149,18 @@
 
     })
  }
+
+// Database Update Last Price Function
+
+  function databaseLastPriceUpdate() {
+    var $tr = $('.tableRow');
+
+    _.forEach($tr, function(row){
+      var uuid = $(row).data('uuid');
+      var url = 'https://stock-app.firebaseio.com/stocks/'+uuid+'.json';
+
+      //$.ajax(url: url, type: 'PUT')
+    })
+  }
 
 }());
