@@ -28,11 +28,11 @@
     var currentPrice = $('<td class="currentPrice">'+data.LastPrice+'</td>');
   	var change = $('<td>'+changeNum+', '+'% '+changePerc+'</td>');
   		if( data.Change > 0) {
-        change.css("color", "green");
+        change.css("color", "limegreen");
       } else {
         change.css("color", "red");
       }
-  	var remove = $('<td><button>Remove</button></td>');
+  	var remove = $('<td><button style="background-color: lightCoral; color: black; box-shadow: 0px 1px 1px; ">Remove</button></td>');
   	remove.on("click", function(){
   		tableRow.empty();
   	});
