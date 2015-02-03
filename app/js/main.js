@@ -15,15 +15,16 @@
 
   function createTable(data) {
   	var info = [];
-  	var tableRow = $('<tr></tr>');
+  	var tableRow = $('<tr class="tableRow"></tr>');
   	var quantityValue = $('#quantity').val();
   	var tableBody = $('#tbody');
   	var changeNum = Math.round(data.Change*100)/100;
   	var changePerc = Math.round(data.ChangePercent*100)/100;
 
-  	var name = $('<td>'+data.Name+'</td>');
+  	var name = $('<td class="name">'+data.Name+'</td>');
   	var price = $('<td class="price">'+data.LastPrice+'</td>');
   	var quantity = $('<td class="quantity">'+quantityValue+'</td>');
+    var currentPrice = $('<td class="currentPrice">'+data.LastPrice+'</td>');
   	var change = $('<td>'+changeNum+', '+'% '+changePerc+'</td>');
   		if( data.Change > 0) {
         change.css("color", "green");
@@ -39,6 +40,7 @@
   	tableRow.append(name);
   	tableRow.append(price);
   	tableRow.append(quantity);
+    tableRow.append(currentPrice);
   	tableRow.append(change);
   	tableRow.append(remove);
 
@@ -62,6 +64,30 @@
     total.empty();
     total.append(Math.round(totalPrice*100)/100);
 
+     refreshTable();
+
   }
-  
+
+ function refreshTable(){
+    var trow = $('.tableRow');
+
+    _.forEach(trow, function(n){
+      var row = $(n);
+      var foundName = row.find('.name')[0].innerHTML;
+      var tickerFindURL = 'http://dev.markitondemand.com/Api/v2/Lookup/jsonp?input='+foundName+'&callback=?';
+
+      $.getJSON(tickerFindURL, function(res){
+        var ticker = res[0].Symbol;
+
+        var url = 'http://dev.markitondemand.com/Api/v2/Quote/jsonp?symbol='+ticker+'&callback=?'
+
+        $.getJSON(url, function(res){
+          console.log(res);
+        });
+      })
+
+    })
+ }
+
+
 }());
