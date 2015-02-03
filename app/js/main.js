@@ -3,6 +3,7 @@
 
   var buyButton = $('.buy-button');
   var refreshButton = $('.refresh');
+  var $tbody = $('#tbody');
 
   buyButton.on("click", function(){
   	  var ticker = $('#tickerSymbol').val();
@@ -17,6 +18,11 @@
 
   refreshButton.on("click", function(){
     refreshTable();
+  })
+
+  $tbody.on("click", "button", function(){
+    $(this).closest('tr').remove();
+    updateTotal();
   })
 
   function createTable(data) {
@@ -38,9 +44,6 @@
         change.css("color", "red");
       }
   	var remove = $('<td><button style="background-color: lightCoral; color: black; box-shadow: 0px 1px 1px; ">Remove</button></td>');
-  	remove.on("click", function(){
-  		tableRow.empty();
-  	});
 
 
   	tableRow.append(name);
@@ -52,7 +55,12 @@
 
   	tableBody.append(tableRow);
 
-  	var priceArray = [];
+    updateTotal();
+
+  }
+
+  function updateTotal(){
+    var priceArray = [];
     var tableChildren = $('#tbody').children();
 
     _.forEach(tableChildren, function(n){
@@ -69,10 +77,9 @@
     var total = $('#total');
     total.empty();
     total.append(Math.round(totalPrice*100)/100);
-
   }
 
- function refreshTable(){
+  function refreshTable(){
     var trow = $('.tableRow');
 
     _.forEach(trow, function(n){
@@ -94,6 +101,5 @@
 
     })
  }
-
 
 }());
